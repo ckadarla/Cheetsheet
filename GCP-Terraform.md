@@ -20,7 +20,7 @@ provider "google" {
   region  = "us-central1"
 }
 ```
-
+### 📄 GCP backend with remote statefile
 ```
 terraform {
   backend "gcs" {
