@@ -185,3 +185,202 @@ output "instance_ip" {
 
 Would you like a **PDF** of this cheat sheet? I can also combine this with AWS, Azure, Kubernetes, and GCP-specific cheat sheets into one comprehensive 
 **Terraform Master Guide**. Just let me know!
+
+
+Here’s a set of **sample Terraform code snippets** for various **GCP components**: IAM, Compute Instance, VPC, VPC Service Controls (VPCSC), Cloud Storage, Filestore (GCP Storage), GKE, GCR, and Cloud Run.
+
+Each example uses the Terraform `google` provider (>= v4.0 recommended).
+
+---
+
+## ✅ 1. Provider Setup (common for all)
+```hcl
+provider "google" {
+  project = "your-gcp-project-id"
+  region  = "us-central1"
+  zone    = "us-central1-a"
+}
+```
+
+---
+
+## ✅ 2. IAM Binding
+```hcl
+resource "google_project_iam_member" "viewer" {
+  project = "your-gcp-project-id"
+  role    = "roles/viewer"
+  member  = "user:example@example.com"
+}
+```
+
+---
+
+## ✅ 3. Compute Instance
+```hcl
+resource "google_compute_instance" "vm_instance" {
+  name         = "example-instance"
+  machine_type = "e2-medium"
+  zone         = "us-central1-a"
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+    network = "default"
+    access_config {}
+  }
+}
+```
+
+---
+
+## ✅ 4. VPC Network
+```hcl
+resource "google_compute_network" "vpc_network" {
+  name                    = "custom-vpc"
+  auto_create_subnetworks = false
+}
+
+resource "google_compute_subnetwork" "subnet" {
+  name          = "custom-subnet"
+  ip_cidr_range = "10.0.0.0/16"
+  region        = "us-central1"
+  network       = google_compute_network.vpc_network.id
+}
+```
+
+---
+
+## ✅ 5. VPCSC (Service Perimeter)
+```hcl
+resource "google_access_context_manager_access_policy" "policy" {
+  parent = "organizations/123456789012"
+  title  = "example-policy"
+}
+
+resource "google_access_context_manager_service_perimeter" "perimeter" {
+  name         = "accessPolicies/${google_access_context_manager_access_policy.policy.name}/servicePerimeters/perimeter-1"
+  parent       = google_access_context_manager_access_policy.policy.name
+  title        = "Perimeter 1"
+  perimeter_type = "PERIMETER_TYPE_REGULAR"
+
+  status {
+    resources = ["projects/your-gcp-project-id"]
+    restricted_services = ["storage.googleapis.com"]
+  }
+}
+```
+
+---
+
+## ✅ 6. Cloud Storage (GCS Bucket)
+```hcl
+resource "google_storage_bucket" "bucket" {
+  name     = "my-terraform-bucket-123"
+  location = "US"
+  uniform_bucket_level_access = true
+}
+```
+
+---
+
+## ✅ 7. Filestore (Cloud Storage option)
+```hcl
+resource "google_filestore_instance" "filestore_instance" {
+  name       = "example-filestore"
+  zone       = "us-central1-c"
+  tier       = "STANDARD"
+  network {
+    network = "default"
+    modes   = ["MODE_IPV4"]
+    reserved_ip_range = "10.0.0.0/29"
+  }
+
+  file_shares {
+    name       = "share1"
+    capacity_gb = 1024
+  }
+}
+```
+
+---
+
+## ✅ 8. GKE (Google Kubernetes Engine)
+```hcl
+resource "google_container_cluster" "primary" {
+  name     = "gke-cluster"
+  location = "us-central1"
+  remove_default_node_pool = true
+  initial_node_count       = 1
+
+  network    = "default"
+  subnetwork = "default"
+}
+
+resource "google_container_node_pool" "primary_nodes" {
+  name       = "primary-node-pool"
+  cluster    = google_container_cluster.primary.name
+  location   = google_container_cluster.primary.location
+
+  node_config {
+    machine_type = "e2-medium"
+  }
+
+  initial_node_count = 1
+}
+```
+
+---
+
+## ✅ 9. GCR (Google Container Registry)
+GCR is **automatically enabled** when pushing images. You only need to **enable the API** if you haven't already:
+
+```hcl
+resource "google_project_service" "container_registry" {
+  project = "your-gcp-project-id"
+  service = "containerregistry.googleapis.com"
+}
+```
+
+Then tag/push Docker images like:
+```sh
+docker tag my-image gcr.io/your-gcp-project-id/my-image
+docker push gcr.io/your-gcp-project-id/my-image
+```
+
+---
+
+## ✅ 10. Cloud Run
+```hcl
+resource "google_cloud_run_service" "default" {
+  name     = "cloud-run-service"
+  location = "us-central1"
+
+  template {
+    spec {
+      containers {
+        image = "gcr.io/cloudrun/hello"
+      }
+    }
+  }
+
+  traffic {
+    percent         = 100
+    latest_revision = true
+  }
+}
+
+resource "google_cloud_run_service_iam_member" "public_invoker" {
+  location    = google_cloud_run_service.default.location
+  service     = google_cloud_run_service.default.name
+  role        = "roles/run.invoker"
+  member      = "allUsers"
+}
+```
+
+---
+
+If you want these as a **ready-to-run modular repo**, I can help you organize them into a structured folder with a shared provider block, variables, outputs, etc. Want that?
