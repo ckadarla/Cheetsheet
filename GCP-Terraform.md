@@ -21,6 +21,25 @@ provider "google" {
 }
 ```
 
+```
+terraform {
+  backend "gcs" {
+    bucket  = "my-terraform-state-bucket-123"
+    prefix  = "terraform/state"
+  }
+}
+```
+```
+resource "google_storage_bucket" "terraform_state" {
+  name     = "my-terraform-state-bucket-123"
+  location = "US"
+  force_destroy = true
+  versioning {
+    enabled = true
+  }
+  uniform_bucket_level_access = true
+}
+```
 ---
 
 ## 📦 2. Common GCP Resources
