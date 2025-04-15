@@ -1,6 +1,6 @@
 Here’s your content converted into Markdown (`.md`) format:
 
-```markdown
+
 # Bash Scripting Basics
 
 ## 1. What is a shell script?
