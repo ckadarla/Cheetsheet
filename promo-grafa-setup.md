@@ -47,3 +47,5 @@ Popular Dashboards
 
 #### 3831 - Kubernetes Cluster Autoscaler (via Prometheus)
 
+#### 14900 - Nginx 
+
