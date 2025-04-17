@@ -42,3 +42,8 @@ Popular Dashboards
 #### 6417 - Kubernetes Cluster (Prometheus)
 
 #### 11074 - Node Exporter Dashboard EN 20201010-Sta
+
+#### 315 - Kubernetes cluster monitoring (via Prometheus)
+
+#### 3831 - Kubernetes Cluster Autoscaler (via Prometheus)
+
