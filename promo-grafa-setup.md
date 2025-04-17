@@ -8,7 +8,6 @@ To install the Prometheus helm chart we need to run the “helm install” comma
 ```
 helm install prometheus prometheus-community/prometheus
 ```
-
 ```
 minikube service monitoring-prometheus-server &
 ```
@@ -19,8 +18,8 @@ helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 ```
 
-Install Grafana Helm Chart on Kubernetes Cluster
-For installing the Grafana on Kubernetes, Use “helm install” command
+Install the Grafana Helm Chart on a Kubernetes Cluster
+For installing Grafana on Kubernetes, use “helm install” command
 ```
 helm install grafana grafana/grafana
 ```
