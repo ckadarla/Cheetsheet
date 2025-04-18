@@ -42,3 +42,7 @@ File content
 phpinfo();
 ?>
 ```
+Download lastest wordpress
+```
+https://wordpress.org/latest.zip
+```
