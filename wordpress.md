@@ -46,3 +46,8 @@ Download lastest wordpress
 ```
 https://wordpress.org/latest.zip
 ```
+
+wowcommerce for php 7
+```
+https://github.com/woocommerce/woocommerce/releases/download/6.4.0/woocommerce.6.4.0.zip
+```
