@@ -50,4 +50,6 @@ Popular Dashboards
 
 #### 21548
 
-
+```
+kubectl exec -n grafana grafana-7968bbd4b7-tdklb -- bin/grafana-cli admin reset-admin-password MyAdminPassword
+```
