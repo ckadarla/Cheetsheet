@@ -67,3 +67,4 @@ kubectl port-forward -n kube-prometheus-stack svc/kube-prometheus-stack-promethe
 ```
 kubectl port-forward -n kube-prometheus-stack svc/kube-prometheus-stack-grafana 8080:80
 ```
+#### Default user name and password for grafana admin/prom-operator
