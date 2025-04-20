@@ -53,3 +53,17 @@ Popular Dashboards
 ```
 kubectl exec -n grafana grafana-7968bbd4b7-tdklb -- bin/grafana-cli admin reset-admin-password MyAdminPassword
 ```
+
+#### Alternative helm 
+```
+helm install kube-prometheus-stack \
+  --create-namespace \
+  --namespace kube-prometheus-stack \
+  prometheus-community/kube-prometheus-stack
+```
+```
+kubectl port-forward -n kube-prometheus-stack svc/kube-prometheus-stack-prometheus 9090:9090
+```
+```
+kubectl port-forward -n kube-prometheus-stack svc/kube-prometheus-stack-grafana 8080:80
+```
