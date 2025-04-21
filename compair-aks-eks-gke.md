@@ -1,4 +1,5 @@
-![image](https://github.com/user-attachments/assets/b3db982f-0a5a-4b5c-8f13-fd27c47d66fc)
+![image](https://github.com/user-attachments/assets/de800329-1283-49c0-8bb2-8c2256862c03)
+
 ---
 
 ## 🌐 **1. Overview**
