@@ -365,8 +365,6 @@ spec:
         subset: v2
       weight: 20
 ```
-➡️ 80% of traffic goes to v1, 20% to v2 — no app code changes needed!
----
 ## 🧠 TL;DR
 | Term | Meaning |
 |------|---------|
