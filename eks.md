@@ -203,10 +203,134 @@ eksctl delete cluster --name my-eks-cluster --region us-east-1
 
 ---
 
-Would you like this cheat sheet as:
+## 🚀 **EKS - Elastic Kubernetes Service Cheat Sheet**
 
-- 📄 A **PDF**
-- 📘 Part of a **multi-cloud K8s comparison guide (AKS, EKS, GKE)**
-- 📊 A visual **reference card**?
+---
 
-Let me know!
+### 🔧 **Cluster Management (EKS + eksctl)**
+
+> First, install:
+> - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)  
+> - [eksctl](https://eksctl.io/introduction/#installation)
+
+| Command | Description |
+|--------|-------------|
+| `eksctl create cluster --name <cluster-name> --region <region> --nodegroup-name <ng-name> --node-type t3.medium --nodes 3` | Create EKS cluster with a managed node group |
+| `eksctl get cluster --region <region>` | List clusters |
+| `eksctl delete cluster --name <cluster-name> --region <region>` | Delete a cluster |
+| `aws eks update-kubeconfig --name <cluster-name> --region <region>` | Update `kubeconfig` for the cluster |
+| `eksctl scale nodegroup --cluster <name> --name <ng-name> --nodes 5 --region <region>` | Scale a node group |
+
+---
+
+### 🧰 **kubectl Basics**
+
+| Command | Description |
+|--------|-------------|
+| `kubectl get nodes` | List all nodes |
+| `kubectl get pods -A` | View all pods in all namespaces |
+| `kubectl logs <pod-name>` | View pod logs |
+| `kubectl exec -it <pod> -- bash` | Exec into a running pod |
+| `kubectl describe pod <pod>` | Detailed info about pod |
+
+---
+
+### 📦 **Deployments & Services**
+
+| Command | Description |
+|--------|-------------|
+| `kubectl apply -f <file>.yaml` | Deploy resources |
+| `kubectl delete -f <file>.yaml` | Delete resources |
+| `kubectl get deployments` | List deployments |
+| `kubectl get svc` | List services |
+| `kubectl expose deployment <name> --type=LoadBalancer --port=80` | Create service for a deployment |
+| `kubectl scale deployment <name> --replicas=3` | Scale replicas |
+| `kubectl rollout restart deployment <name>` | Restart deployment |
+
+---
+
+### ☁️ **IAM, Networking, and Security**
+
+| Command | Description |
+|--------|-------------|
+| `eksctl utils associate-iam-oidc-provider --cluster <name> --approve` | Associate IAM OIDC provider (required for IRSA) |
+| `eksctl create iamserviceaccount ...` | Create IAM roles for service accounts |
+| `kubectl describe configmap aws-auth -n kube-system` | View IAM to RBAC mapping |
+| `eksctl create fargateprofile` | Create EKS Fargate profile (for serverless pods) |
+| `kubectl auth can-i <verb> <resource>` | Check RBAC permissions |
+
+---
+
+### 📊 **Monitoring & Logs**
+
+| Tool | Use |
+|------|-----|
+| **CloudWatch Logs** | Capture logs via Fluent Bit or aws-for-fluent-bit |
+| **Container Insights** | Full monitoring of nodes/pods |
+| `kubectl top nodes` / `top pods` | View metrics (requires Metrics Server) |
+| **AWS X-Ray** | Distributed tracing integration with EKS |
+
+---
+
+### 📈 **Upgrades & Maintenance**
+
+| Command | Description |
+|--------|-------------|
+| `eksctl get cluster --name <name>` | View current cluster version |
+| `eksctl upgrade cluster --name <name>` | Upgrade control plane |
+| `eksctl upgrade nodegroup --cluster <name> --name <ng-name>` | Upgrade a node group |
+| `eksctl drain nodegroup` | Drain nodes for maintenance |
+
+---
+
+### 🛠️ **Helpful Tools**
+
+| Tool | Purpose |
+|------|---------|
+| `eksctl` | Simplified EKS CLI |
+| `kubectl` | Kubernetes CLI |
+| `Helm` | Kubernetes package manager |
+| `Karpenter` | Cluster autoscaler alternative |
+| `aws-iam-authenticator` | Optional – for advanced auth scenarios |
+
+---
+
+### 📄 **Manifest Sample (Deployment + Service)**
+
+```yaml
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+```
+
+```yaml
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+```
