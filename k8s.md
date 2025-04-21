@@ -1,7 +1,39 @@
-Sure! Here's a clean, copy-ready **Kubernetes Cheat Sheet** – structured for fast reference and real-world usage:
+## 🧠 **Kubernetes Basic Architecture**
+### 🔹 **1. Master Node (Control Plane)** – *The Brain 🧠*
+Responsible for managing the whole cluster – scheduling, scaling, maintaining desired state.
+**Key components:**
+| Component        | Role |
+|------------------|------|
+| **API Server**   | Front door to K8s – all requests (kubectl, tools) go here |
+| **Scheduler**    | Decides which node runs a pod |
+| **Controller Manager** | Ensures desired state (e.g., restart a crashed pod) |
+| **etcd**         | Cluster’s key-value store – holds config & state data |
+---
+### 🔹 **2. Worker Nodes** – *The Muscles 💪*
+These run your actual applications (pods/containers).
+**Key components:**
+| Component        | Role |
+|------------------|------|
+| **kubelet**      | Talks to API server, runs/monitors pods |
+| **kube-proxy**   | Handles network routing for pods/services |
+| **Container Runtime** | Runs containers (e.g., containerd, Docker) |
+---
+### 🔹 **3. Pod** – *The Smallest Deployable Unit 📦*
+- Wraps one or more containers.
+- All containers in a pod share **network** and **storage**.
+- Managed by controllers like Deployment, StatefulSet, etc.
+---
+### 🔹 **4. Node & Cluster**
+- **Node** = A single machine (VM or physical).
+- **Cluster** = Group of nodes managed by Kubernetes.
+---
+### 🔹 **5. Add-ons (Optional but Important)**
+- **Dashboard** – Web UI
+- **CoreDNS** – Internal DNS service
+- **Ingress Controller** – Manage external access to services
+- **Metrics Server** – Collects resource metrics (CPU, memory)
 
 ---
-
 # 🧠 Kubernetes Cheat Sheet
 
 ## ✅ Core Concepts
