@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/0fc8ec3b-6345-4275-ac2e-9a343cedaedd)
+![image](https://github.com/user-attachments/assets/0fc8ec3b-6345-4275-ac2e-9a343cedaedd = x250)
 
 ## 🧠 **Kubernetes Basic Architecture**
 ### 🔹 **1. Master Node (Control Plane)** – *The Brain 🧠*
