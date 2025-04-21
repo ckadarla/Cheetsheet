@@ -317,6 +317,6 @@ spec:
 - HAProxy
 - Istio Ingress Gateway (if using Istio)
 ---
-## 💡 TL;DR
+#### 💡 TL;DR
 **Ingress** is the "traffic cop" that decides which service gets which web request. You define rules in an Ingress resource, and the Ingress Controller routes traffic accordingly.
 ---
