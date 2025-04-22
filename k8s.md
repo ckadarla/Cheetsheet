@@ -375,7 +375,7 @@ spec:
 Great follow-up! Let’s clearly break down the difference between **Ingress** and **NGINX Ingress** in Kubernetes 👇
 
 ---
-
+![image](https://github.com/user-attachments/assets/16e8c6b5-23f8-4a26-b32d-28135caa8938)
 ## 🌐 **What is Ingress in Kubernetes?**
 
 - **Ingress** is a **Kubernetes API object**.
