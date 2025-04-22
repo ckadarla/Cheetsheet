@@ -450,7 +450,6 @@ spec:
 3. 🌍 Traffic to `myapp.example.com` is routed to your service.
 
 ---
-
 ## 📌 TL;DR
 
 | Term | Description |
@@ -459,4 +458,59 @@ spec:
 | **Ingress Controller** | The component that implements those rules |
 | **NGINX Ingress** | A specific Ingress Controller powered by NGINX |
 
+---
+## 💽 What is a **PV (Persistent Volume)?**
+
+- **PV = Persistent Volume**
+- It’s a **storage resource** in the cluster.
+- Created and managed by **admins** or **dynamically provisioned**.
+- Think of it as a **pre-configured disk** that Kubernetes knows about.
+---
+## 📥 What is a **PVC (Persistent Volume Claim)?**
+
+- **PVC = Persistent Volume Claim**
+- It’s a **request** for storage made by **applications** (via pods).
+- Apps **claim** space on a PV with specific size, access mode, etc.
+
+> 💡 The PVC is how your pod asks for storage, and Kubernetes finds a matching PV to bind it to.
+---
+## 🔁 How PV and PVC Work Together
+
+1. 🛠️ Admin (or StorageClass) creates a **PV**.
+2. 📦 App creates a **PVC** requesting storage.
+3. 🔗 Kubernetes **matches** the PVC with a suitable PV.
+4. 📂 The pod **mounts** the volume via the PVC.
+---
+## 🧪 Example: PVC YAML
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+```
+This requests:
+- 1Gi of storage
+- With read-write access by a single node
+---
+## 📦 Use in Pods
+You reference the PVC in your Pod like this:
+```yaml
+volumes:
+  - name: storage
+    persistentVolumeClaim:
+      claimName: my-pvc
+```
+---
+## 🧠 TL;DR
+
+| Term | What it is | Who creates it | Role |
+|------|------------|----------------|------|
+| **PV** | Actual storage (e.g., EBS, NFS) | Admin or dynamically | Supply |
+| **PVC** | Request for storage | App/Developer | Demand |
 ---
