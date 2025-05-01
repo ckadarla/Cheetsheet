@@ -179,3 +179,106 @@ helm upgrade my-nginx bitnami/nginx --set service.type=LoadBalancer
 - Combine Helm with GitOps (like ArgoCD or Flux) for powerful deployment pipelines.
 
 ---
+In Helm, `helm get` is used to retrieve information about a **release**. Here’s what each of the commonly used subcommands — `notes`, `values`, and `manifest` — does:
+
+---
+
+## 📘 `helm get notes`
+
+### 🔹 Purpose:
+- Fetches the **"NOTES.txt"** output from a Helm release.
+- Notes are user-defined instructions or information shown after installation.
+
+### 🔹 Command:
+```bash
+helm get notes <release-name>
+```
+
+### 🔹 Example Output:
+If a chart has a `templates/NOTES.txt` like this:
+```text
+1. Your application is deployed!
+2. Access it via: http://{{ .Release.Name }}.example.com
+```
+Then:
+```bash
+helm get notes my-app
+```
+Might output:
+```text
+1. Your application is deployed!
+2. Access it via: http://my-app.example.com
+```
+
+---
+
+## ⚙️ `helm get values`
+
+### 🔹 Purpose:
+- Shows the values used during the **installation/upgrade** of the Helm release.
+
+### 🔹 Command:
+```bash
+helm get values <release-name>          # shows user-supplied values
+helm get values <release-name> -a       # shows all (merged) values (default + custom)
+```
+
+### 🔹 Example:
+```bash
+helm get values my-app
+```
+Output:
+```yaml
+replicaCount: 3
+image:
+  repository: nginx
+  tag: 1.17
+```
+
+---
+
+## 📄 `helm get manifest`
+
+### 🔹 Purpose:
+- Shows the **rendered Kubernetes manifests** for the Helm release (i.e., what got applied to the cluster).
+
+### 🔹 Command:
+```bash
+helm get manifest <release-name>
+```
+
+### 🔹 Output:
+A big YAML document containing rendered:
+- Deployments
+- Services
+- ConfigMaps
+- etc.
+
+Like:
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 3
+  ...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app
+...
+```
+
+---
+
+## ✅ Summary Table
+
+| Command                  | Description                                        |
+|--------------------------|----------------------------------------------------|
+| `helm get notes`         | Shows post-install notes (`templates/NOTES.txt`)   |
+| `helm get values`        | Shows values passed (user or merged with defaults) |
+| `helm get manifest`      | Shows rendered Kubernetes YAML resources           |
+
+---
