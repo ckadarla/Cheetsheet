@@ -159,5 +159,13 @@ mysql -u root -p myapp_db < myapp_backup.sql
   ```bash
   mysql --max_allowed_packet=512M -u root -p < large_backup.sql
   ```
+### Reset wordpress admin password
 
-Would you like guidance on restoring a database from a binary backup or using tools like `mysqlpump` or Percona XtraBackup?
+```
+mysql -u your_db_username -p your_db_name
+```
+```
+UPDATE wp_users SET user_pass = MD5('newpassword') WHERE user_login = 'admin';
+EXIT;
+
+```
